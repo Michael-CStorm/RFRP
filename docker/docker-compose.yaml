@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+   user_api:
+      build:
+         context: ../
+         dockerfile: docker/user_api/Dockerfile
+      image: rfrp_user_api_image
+      container_name: rfrp_user_api
+#      restart: always
+      depends_on:
+         - db
+      volumes:
+         - ..:/src
+         - context:/context
+      ports:
+         - "5000:5000"
+      environment:
+         - DB_HOST=rfrp_db
+         - DB_USER=myuser
+         - DB_PASS=dev000000
+         - DB_NAME=user_api
+   db:
+      container_name: rfrp_db
+      image: mysql:8
+      restart: always
+      expose:
+         - '3306'
+      ports:
+         - "13306:3306"
+      command: --secure-file-priv=
+      environment:
+         - MYSQL_ROOT_PASSWORD=iPass
+      volumes:
+         - ../db/data:/var/lib/mysql
+         - ../db/init:/docker-entrypoint-initdb.d/:ro
+         - context:/context
+volumes:
+   context:
+   
