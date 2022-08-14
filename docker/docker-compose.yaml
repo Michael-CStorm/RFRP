@@ -1,25 +1,47 @@
 version: '3'
 
 services:
+   libfrp:
+      build:
+         context: ../
+         dockerfile: docker/libfrp/Dockerfile
+      image: rfrp_libfrp_image
+      container_name: rfrp_libfrp
+      depends_on:
+         - redis
+      volumes:
+         - ..:/src
+         - context:/context
+      ports:
+         - "9090:9090"
+         - "9000:9000"
+      environment:
+         - SUBDOMAIN=localhost
+         - RD_HOST=rfrp_redis
+         - BIND_PORT=9000
+         - HTTP_PORT=9090
    user_api:
       build:
          context: ../
          dockerfile: docker/user_api/Dockerfile
       image: rfrp_user_api_image
       container_name: rfrp_user_api
-#      restart: always
       depends_on:
          - db
+         - redis
       volumes:
          - ..:/src
          - context:/context
       ports:
-         - "5000:5000"
+         - "9010:9010"
       environment:
+         - API_PORT=9010
+         - SUBDOMAIN=localhost
          - DB_HOST=rfrp_db
          - DB_USER=myuser
          - DB_PASS=dev000000
          - DB_NAME=user_api
+         - RD_HOST=rfrp_redis
    db:
       container_name: rfrp_db
       image: mysql:8
@@ -35,6 +57,16 @@ services:
          - ../db/data:/var/lib/mysql
          - ../db/init:/docker-entrypoint-initdb.d/:ro
          - context:/context
+   redis:
+      container_name: rfrp_redis
+      image: redis:7
+      restart: always
+      ports:
+         - '6379:6379'
+      environment:
+         - REDIS_PASSWORD=iPass
+      volumes:
+         - ../cache/data:/data
 volumes:
    context:
    
