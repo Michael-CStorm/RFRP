@@ -13,13 +13,13 @@ services:
          - ..:/src
          - context:/context
       ports:
-         - "9090:9090"
-         - "9000:9000"
+         - "${BIND_PORT}:${BIND_PORT}"
+         - "${HTTP_PORT}:${HTTP_PORT}"
       environment:
-         - SUBDOMAIN=localhost
-         - RD_HOST=rfrp_redis
-         - BIND_PORT=9000
-         - HTTP_PORT=9090
+         - DOMAIN=${DOMAIN}
+         - RD_HOST=${RD_HOST}
+         - BIND_PORT=${BIND_PORT}
+         - HTTP_PORT=${HTTP_PORT}
    user_api:
       build:
          context: ../
@@ -33,17 +33,17 @@ services:
          - ..:/src
          - context:/context
       ports:
-         - "9010:9010"
+         - "${API_PORT}:${API_PORT}"
       environment:
-         - API_PORT=9010
-         - SUBDOMAIN=localhost
-         - DB_HOST=rfrp_db
-         - DB_USER=myuser
-         - DB_PASS=dev000000
-         - DB_NAME=user_api
-         - RD_HOST=rfrp_redis
+         - API_PORT=${API_PORT}
+         - DOMAIN=${DOMAIN}
+         - RD_HOST=${RD_HOST}
+         - DB_HOST=${DB_HOST}
+         - DB_USER=${DB_USER}
+         - DB_PASS=${DB_PASS}
+         - DB_NAME=${DB_NAME}
    db:
-      container_name: rfrp_db
+      container_name: ${DB_HOST}
       image: mysql:8
       restart: always
       expose:
@@ -52,19 +52,17 @@ services:
          - "13306:3306"
       command: --secure-file-priv=
       environment:
-         - MYSQL_ROOT_PASSWORD=iPass
+         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       volumes:
          - ../db/data:/var/lib/mysql
          - ../db/init:/docker-entrypoint-initdb.d/:ro
          - context:/context
    redis:
-      container_name: rfrp_redis
+      container_name: ${RD_HOST}
       image: redis:7
       restart: always
       ports:
-         - '6379:6379'
-      environment:
-         - REDIS_PASSWORD=iPass
+         - '${RD_PORT}:${RD_PORT}'
       volumes:
          - ../cache/data:/data
 volumes:

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+rm -rf /context/user_api
 mkdir -p /context/user_api
 cp -r /src/user_api /context/
 

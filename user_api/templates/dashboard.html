@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>RFRP</title>
+</head>
+<body>
+	<h1>RFRP Dashboard</h1>
+    <h2>Enable a subdomain</h2>
+    <form action="enableSubdomain" method="POST">
+        <ul>
+            <li>
+                <label for="subdomain">Subdomain Name</label>
+                <input id="subdomain" name="subdomain" type="text" value="test" required>
+            </li>
+            <li>
+                <label for="duration">Duration (in seconds, less than 1000 seconds)</label>
+                <input id="duration" name="duration" type="number" value="10" required>
+            </li>
+            <li class="button">
+                <button type="submit">Enable!</button>
+            </li>              
+        </ul>
+    </form>
+</body>
+</html>

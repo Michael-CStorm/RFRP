@@ -19,7 +19,11 @@ echo """
 [common]
 bind_port = $BIND_PORT
 vhost_http_port = $HTTP_PORT
-subdomain_host = $SUBDOMAIN
+subdomain_host = $DOMAIN
+
+dashboard_port = 9500
+dashboard_user = admin
+dashboard_pwd = admin
 """ > server.ini
 
 ./frps -c server.ini
