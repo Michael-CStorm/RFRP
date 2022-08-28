@@ -6,6 +6,26 @@
 </head>
 <body>
 	<h1>RFRP Dashboard</h1>
+
+    This server allows you to publish a website from a machine behind a NAT.
+    This is a prototype without any security management. Please don't be malicious!
+
+    <h2>Configure your local machine</h2>
+
+    <p>Step 1:</p>
+    <p>Publish a http server on port 9999. For example, `python3 -m http.server 9999`</p>
+
+    <p>Step 2:</p>
+    <p>Install golang compiler or docker</p>
+
+    <p>Step 3 (docker):</p>
+    <p>TODO</p>
+
+    <h2>Test machine (If you just want to see how it works)</h2>
+    <p>I have a simple file server in my local raspberry pi. I publish this file server at 'test.uw-biblog.com'</p>
+    <p>The url should be 'not exist' currently. Unless you click the enable button below with subdomain='test'.</p>
+    <p>The the url should be accessible for 10 seconds, and then becomes 'not exist' again.</p>
+
     <h2>Enable a subdomain</h2>
     <form action="enableSubdomain" method="POST">
         <ul>
